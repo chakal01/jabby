@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Utilisateurs</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Titre</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.firstname %> <%= user.name %></td>
+        <td><%= user.titre %></td>
+        <td><%= user.email %></td>
+        <td>
+          <%= link_to user, class: "btn btn-default", title: "Voir" do %>
+            <span class="glyphicon glyphicon-eye-open" ></span>
+          <% end %>
+          <%= link_to edit_user_path(user), class: "btn btn-default", title: "Editer" do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+          <% end %>
+          <%= link_to user, method: :delete, data: { confirm: 'Etes-vous sûr ?' }, class: "btn btn-default", title: "Supprimer" do %>
+            <span class="glyphicon glyphicon-trash"></span>          
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Ajouter', new_user_path, class: "btn btn-default" %>

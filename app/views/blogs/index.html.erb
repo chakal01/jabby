@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Blogs</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Camp</th>
+      <th>Url</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @blogs.each do |blog| %>
+      <tr>
+        <td><%= blog.name %></td>
+        <td><%= blog.camp.name %></td>
+        <td><%= blog.url %></td>
+        <td>
+          <%= link_to blog, class: "btn btn-default", title: "Voir" do %>
+            <span class="glyphicon glyphicon-eye-open" ></span>
+          <% end %>
+          <%= link_to edit_blog_path(blog), class: "btn btn-default", title: "Editer" do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+          <% end %>
+          <%= link_to blog, method: :delete, data: { confirm: 'Etes-vous sûr ?' }, class: "btn btn-default", title: "Supprimer" do %>
+            <span class="glyphicon glyphicon-trash"></span>          
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Ajouter', new_blog_path, class: "btn btn-default" %>

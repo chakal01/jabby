@@ -1,0 +1,22 @@
+<%= bootstrap_form_for(@camp, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-8" ) do |f| %>
+  <% if @camp.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@camp.errors.count, "error") %> prohibited this camp from being saved:</h2>
+
+      <ul>
+      <% @camp.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.text_field :name, label: "Nom" %>
+  <%= f.text_field :start_date, label: "Début" %>
+  <%= f.text_field :end_date, label: "Fin" %>
+  <%= f.text_field :location, label: "Lieu" %>
+  <%= f.form_group do %>
+    <%= f.submit value: "Créer", class: "btn btn-default col-sm-4" %>
+  <% end %>
+
+<% end %>

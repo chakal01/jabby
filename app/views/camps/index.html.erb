@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Liste des Camps</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Dates</th>
+      <th>Lieu</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @camps.each do |camp| %>
+      <tr>
+        <td><%= camp.name %></td>
+        <td>Du <%= camp.start_date %> au <%= camp.end_date %></td>
+        <td><%= camp.location %></td>
+        <td>
+          <%= link_to camp, class: "btn btn-default", title: "Voir" do %>
+            <span class="glyphicon glyphicon-eye-open" ></span>
+          <% end %>
+          <%= link_to edit_camp_path(camp), class: "btn btn-default", title: "Editer" do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+          <% end %>
+          <%= link_to camp, method: :delete, data: { confirm: 'Etes-vous sûr ?' }, class: "btn btn-default", title: "Supprimer" do %>
+            <span class="glyphicon glyphicon-trash"></span>          
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Ajouter', new_camp_path, class: "btn btn-default" %>
