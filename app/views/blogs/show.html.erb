@@ -1,24 +1,52 @@
+<script>
+  $(document).ready(function(){
+    $(document).on('click', '.edit-name', function(){
+      $('#name').attr('readonly', false);
+      $(this).toggleClass('edit-name validate-name');
+      $(this).children('.glyphicon').toggleClass('glyphicon-pencil glyphicon-floppy-disk');
+    });
+
+    $(document).on('click', '.validate-name', function(){
+      $('#name').attr('readonly', true);
+      $(this).children('.glyphicon').toggleClass('glyphicon-pencil glyphicon-floppy-disk');
+      $(this).toggleClass('edit-name validate-name');
+    });
+
+  });
+</script>
+
+<div class="centered">
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Url:</strong>
-  <%= @blog.url %>
-</p>
+<h1>Blog du camp <%= @blog.camp.name %></h1>
 
-<p>
-  <strong>Content:</strong>
-  <%= @blog.content %>
-</p>
+<div class="container-fluid spaced-rows">
+  <div class="row">
+    <label class="control-label col-sm-3 font-bold">URL du blog</label>
+    <div class="col-sm-9">
+      <input type="text" value="<%= @blogs_url%><%= @blog.url %>" class="form-control cursor-default" readonly>
+    </div>
+  </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @blog.name %>
-</p>
+  <div class="row">
+    <label class="control-label col-sm-3">Titre</label>
+    <div class="col-sm-8">
+      <input type="text" value="<%= @blog.name %>" id="name" class="form-control cursor-default" readonly>  
+    </div>
+    <a class="col-sm-1 btn btn-default edit-name">
+      <span class="glyphicon glyphicon-pencil"></span>
+    </a>
+  </div>
 
-<p>
-  <strong>Camp:</strong>
-  <%= @blog.camp %>
-</p>
+  <div class="row">
+    <label class="control-label col-sm-3" for="blog_name">Texte d'introduction</label>
+    <div class="col-sm-8">
+      <textarea type="text" value="<%= @blog.content %>" class="form-control cursor-default" rows="10" readonly ></textarea>
+    </div>
+    <a class="col-sm-1 btn btn-default">
+      <span class="glyphicon glyphicon-pencil"></span>
+    </a>
+  </div>
 
-<%= link_to 'Edit', edit_blog_path(@blog) %> |
-<%= link_to 'Back', blogs_path %>
+</div>
+</div>

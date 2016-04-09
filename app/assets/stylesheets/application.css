@@ -37,3 +37,19 @@ body{
 .is-clickable{
   cursor: pointer;
 }
+.cursor-default{
+  cursor: default !important;
+}
+.font-bold{
+  font-weight: bold;
+}
+.centered{
+  margin: auto;
+  max-width: 800px;
+}
+.spaced-rows > .row{
+  margin-top: 20px;
+}
+.spaced-rows > .row > label{
+  margin-top: 5px;
+}

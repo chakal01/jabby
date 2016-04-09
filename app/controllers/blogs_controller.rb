@@ -10,6 +10,7 @@ class BlogsController < ApplicationController
   # GET /blogs/1
   # GET /blogs/1.json
   def show
+    @blogs_url = "http://blog.campsjab.fr/"
   end
 
   # GET /blogs/new
