@@ -1,3 +1,15 @@
+<script>
+  $(document).ready(function(){
+    $('.toggle-role').click(function(){
+      var role = $(this).attr('id');
+      var that = this;
+      $.ajax({ url: "/users/<%= @user.id %>/toggle_role/"+role }).success(function(data){
+        if (data.status==200){$(that).toggleClass('glyphicon-check glyphicon-unchecked');}
+      });
+    });
+  });
+</script>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -19,6 +31,14 @@
   <strong>Email:</strong>
   <%= @user.email %>
 </p>
+
+<% @roles.each do |role| %>
+  <p>
+    <span class="glyphicon is-clickable <%= (@user.has_role? role) ? 'glyphicon-check' : 'glyphicon-unchecked' %> toggle-role" id="<%= role.to_s %>"></span>
+    <%= role.to_s %>
+  </p>
+<% end %>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

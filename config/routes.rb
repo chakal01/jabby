@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   resources :posts
+  
+  resources :users
+  get "/users/:id/toggle_role/:role", to: "users#toggle_role"
   resources :blogs
   resources :camps
-  
-  scope 'admin' do
-    resources :users
-  end
+
   devise_for :users
 
   get 'accueil/index'

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :toggle_role]
 
   # GET /users
   # GET /users.json
@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @roles = [:admin, :directeur, :secretaire]
   end
 
   # GET /users/new
@@ -21,6 +22,22 @@ class UsersController < ApplicationController
   def edit
   end
 
+  # Ajax function
+  # GET /users/1/toggle_role/admin
+  def toggle_role
+    if current_user.has_role? :admin
+      status = 200
+      if @user.has_role? params[:role].to_sym
+        @user.remove_role params[:role].to_sym
+      else
+        @user.add_role params[:role].to_sym
+      end
+    else
+      status = 401
+    end
+    render :json => {status: status}
+  end
+
   # POST /users
   # POST /users.json
   def create
@@ -28,7 +45,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to user_path(@user), notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -42,7 +59,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to user_path(@user), notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }

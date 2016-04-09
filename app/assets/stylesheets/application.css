@@ -34,3 +34,6 @@ body{
 .mainContent{
   padding: 10px;
 }
+.is-clickable{
+  cursor: pointer;
+}
