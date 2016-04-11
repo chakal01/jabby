@@ -1,39 +1,15 @@
-<p id="notice"><%= notice %></p>
+<div class="centered">
 
-<p>
-  <strong>Url:</strong>
-  <%= @post.url %>
-</p>
-
-<p>
-  <strong>Content:</strong>
-  <%= @post.content %>
-</p>
-
-<p>
-  <strong>Active:</strong>
-  <%= @post.active %>
-</p>
-
-<p>
-  <strong>Title:</strong>
+  <h1>
   <%= @post.title %>
-</p>
+  </h1>
 
-<p>
-  <strong>Date:</strong>
-  <%= @post.date %>
-</p>
+  <div>
+    <%= @post.content %>
+  </div>
 
-<p>
-  <strong>Ordre:</strong>
-  <%= @post.ordre %>
-</p>
+  <div class="margin-top-50">
+    <%= link_to 'Retour', blog_path(@blog), class: "btn btn-default" %>
+  </div>
+</div>
 
-<p>
-  <strong>Blog:</strong>
-  <%= @post.blog %>
-</p>
-
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>

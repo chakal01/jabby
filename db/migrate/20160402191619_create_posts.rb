@@ -7,6 +7,7 @@ class CreatePosts < ActiveRecord::Migration
       t.string :title
       t.string :date
       t.integer :ordre
+      t.integer :views
       t.belongs_to :blog, index: true, foreign_key: true
 
       t.timestamps null: false

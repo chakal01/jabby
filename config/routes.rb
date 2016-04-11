@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
-  resources :posts
   
   resources :users
   get "/users/:id/toggle_role/:role", to: "users#toggle_role"
-  resources :blogs
+  resources :blogs do
+    resources :posts do
+      member do
+        get 'toggle_active'
+      end
+    end
+  end
   resources :camps
 
   devise_for :users

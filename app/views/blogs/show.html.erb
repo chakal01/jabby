@@ -1,15 +1,38 @@
 <script>
   $(document).ready(function(){
-    $(document).on('click', '.edit-name', function(){
-      $('#name').attr('readonly', false);
-      $(this).toggleClass('edit-name validate-name');
+    $(document).on('click', '.edit-thing', function(){
+      var id = $(this).attr('name');
+      $('#'+id).attr('readonly', false);
+      $(this).toggleClass('edit-thing validate-thing');
       $(this).children('.glyphicon').toggleClass('glyphicon-pencil glyphicon-floppy-disk');
     });
 
-    $(document).on('click', '.validate-name', function(){
-      $('#name').attr('readonly', true);
-      $(this).children('.glyphicon').toggleClass('glyphicon-pencil glyphicon-floppy-disk');
-      $(this).toggleClass('edit-name validate-name');
+    $(document).on('click', '.validate-thing', function(){
+      var id = $(this).attr('name');
+      $('#'+id).attr('readonly', true);
+      if (id=="name"){
+        var data = {name: $('#name').val()};
+      }else{
+        var data = {content: $('#content').val()};
+      }
+      var that = this;
+      $.ajax({
+        method: 'PATCH',
+        url: '/blogs/<%= @blog.id%>.json',
+        data: {blog: data }
+      }).success(function(){
+        $(that).toggleClass('edit-thing validate-thing');
+        $(that).children('.glyphicon').toggleClass('glyphicon-pencil glyphicon-floppy-disk');
+      });
+    });
+
+    $(".switch-actif").click(function(){
+      var that = this;
+      $.ajax({
+        url: "/blogs/<%= @blog.id %>/posts/"+this.id+"/toggle_active",
+      }).done(function() {
+        $( that ).toggleClass( "glyphicon-check glyphicon-unchecked" );
+      });
     });
 
   });
@@ -33,7 +56,7 @@
     <div class="col-sm-8">
       <input type="text" value="<%= @blog.name %>" id="name" class="form-control cursor-default" readonly>  
     </div>
-    <a class="col-sm-1 btn btn-default edit-name">
+    <a class="col-sm-1 btn btn-default edit-thing" name="name">
       <span class="glyphicon glyphicon-pencil"></span>
     </a>
   </div>
@@ -41,12 +64,56 @@
   <div class="row">
     <label class="control-label col-sm-3" for="blog_name">Texte d'introduction</label>
     <div class="col-sm-8">
-      <textarea type="text" value="<%= @blog.content %>" class="form-control cursor-default" rows="10" readonly ></textarea>
+      <textarea type="text" id="content" class="form-control cursor-default" rows="10" readonly ><%= @blog.content %></textarea>
     </div>
-    <a class="col-sm-1 btn btn-default">
+    <a class="col-sm-1 btn btn-default edit-thing" name="content">
       <span class="glyphicon glyphicon-pencil"></span>
     </a>
   </div>
+
+  <h2>List des posts</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Online</th>
+        <th>Date</th>
+        <th>Titre</th>
+        <th>Texte</th>
+        <th>Vues</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td>
+            <span id="<%= post.id %>" class="switch-actif glyphicon <%= post.active ? 'glyphicon-check' : 'glyphicon-unchecked' %> is-clickable"></span>
+          </td>
+          <td><%= post.date %></td>
+          <td><%= post.title %></td>
+          <td><%= post.content %></td>
+          <td><%= post.views %></td>
+          <td>
+            <%= link_to blog_post_path(@blog, post), class: "btn btn-default", title: "Voir" do %>
+              <span class="glyphicon glyphicon-eye-open" ></span>
+            <% end %>
+            <%= link_to edit_blog_post_path(@blog, post), class: "btn btn-default", title: "Editer" do %>
+              <span class="glyphicon glyphicon-pencil"></span>
+            <% end %>
+            <%= link_to blog_post_path(@blog, post), method: :delete, data: { confirm: 'Etes-vous sûr ?' }, class: "btn btn-default", title: "Supprimer" do %>
+              <span class="glyphicon glyphicon-trash"></span>          
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to new_blog_post_path(@blog), class: "btn btn-default" do %>
+    Nouveau post
+  <% end %>
+
 
 </div>
 </div>
