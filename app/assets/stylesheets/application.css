@@ -55,3 +55,21 @@ body{
 }
 
 .margin-top-50{margin-top: 50px;}
+.margin-bottom-10{margin-bottom: 10px;}
+
+.small-img{
+  max-height: 100px;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+.delete-cross{
+  color: black;
+  margin-right: 20px;
+  vertical-align: top;
+}
+.delete-cross:hover{
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}

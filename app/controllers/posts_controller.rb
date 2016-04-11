@@ -1,5 +1,6 @@
+require 'fileutils'
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :toggle_active]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :toggle_active, :delete_img]
   before_action :set_blog
 
   # GET /blogs/:blog_id//posts
@@ -11,7 +12,7 @@ class PostsController < ApplicationController
   # GET /blogs/:blog_id/posts/:id/toggle_active
   def toggle_active
     @post.update_attributes({active: !@post.active});
-    render json: {} 
+    render json: {}
   end
 
   # GET /blogs/:blog_id/posts/1
@@ -22,11 +23,15 @@ class PostsController < ApplicationController
   # GET /blogs/:blog_id/posts/new
   def new
     @post = Post.new
+    @cta = "Créer"
+    @url = "/blogs/#{@blog.id}/posts"
     @placeholder_date = DateTime.now().strftime("%m-%d")
   end
 
   # GET /blogs/:blog_id/posts/1/edit
   def edit
+    @url = "/blogs/#{@blog.id}/posts/#{@post.id}"
+    @cta = "Sauver"
   end
 
   # POST /blogs/:blog_id/posts
@@ -37,6 +42,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        save_images(params)
         format.html { redirect_to blog_path(@blog), notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
@@ -49,9 +55,12 @@ class PostsController < ApplicationController
   # PATCH/PUT /blogs/:blog_id/posts/1
   # PATCH/PUT /blogs/:blog_id/posts/1.json
   def update
+    url = post_params[:date].gsub(' ', '')
+
     respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+      save_images(params)
+      if @post.update(post_params.merge( {active: false, url: url } ) )
+        format.html { redirect_to blog_path(@blog), notice: 'Post was successfully updated.' }
         format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit }
@@ -60,12 +69,32 @@ class PostsController < ApplicationController
     end
   end
 
+  def save_images(params)
+    FileUtils.mkpath(@post.path) unless File.directory?(@post.path)
+
+    params[:post][:images].each do |file|
+      File.open("./app/assets/images/posts/#{@post.id}/#{file.original_filename}", "wb") do |f|
+        f.write(file.tempfile.read)
+      end
+      img = Image.create(
+        file: file.original_filename,
+        post_id: @post.id
+      )
+      end
+  end
+
+  def delete_img
+    Image.where(id: params[:img_id]).destroy_all
+    render json: {}
+  end
+
+
   # DELETE /blogs/:blog_id/posts/1
   # DELETE /blogs/:blog_id/posts/1.json
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to blog_path(@blog), notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -73,7 +102,7 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.find(params[:id]).includes(:images)
     end
 
     def set_blog
@@ -82,6 +111,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:url, :content, :active, :title, :date, :ordre, :blog_id)
+      params.require(:post).permit(:url, :content, :active, :title, :date, :ordre, :images, :blog_id)
     end
 end

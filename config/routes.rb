@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :posts do
       member do
         get 'toggle_active'
+        delete 'images/:img_id', to: 'posts#delete_img', as: 'delete_img'
       end
     end
   end

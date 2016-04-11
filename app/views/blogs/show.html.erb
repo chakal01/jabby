@@ -46,9 +46,12 @@
 <div class="container-fluid spaced-rows">
   <div class="row">
     <label class="control-label col-sm-3 font-bold">URL du blog</label>
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <input type="text" value="<%= @blogs_url%><%= @blog.url %>" class="form-control cursor-default" readonly>
     </div>
+    <a class="col-sm-1 btn btn-default" href="<%= @blogs_url%><%= @blog.url %>" target="_blank">
+      <span class="glyphicon glyphicon-eye-open"></span>
+    </a>
   </div>
 
   <div class="row">
@@ -71,7 +74,7 @@
     </a>
   </div>
 
-  <h2>List des posts</h2>
+  <h2>Liste des posts</h2>
 
   <table class="table">
     <thead>
@@ -80,6 +83,7 @@
         <th>Date</th>
         <th>Titre</th>
         <th>Texte</th>
+        <th>Images</th>
         <th>Vues</th>
         <th>Actions</th>
       </tr>
@@ -93,7 +97,8 @@
           </td>
           <td><%= post.date %></td>
           <td><%= post.title %></td>
-          <td><%= post.content %></td>
+          <td><%= truncate(post.content, length: 30, separator: ' ', omission: ' ...') %></td>
+          <td><%= post.images.length %></td>
           <td><%= post.views %></td>
           <td>
             <%= link_to blog_post_path(@blog, post), class: "btn btn-default", title: "Voir" do %>
