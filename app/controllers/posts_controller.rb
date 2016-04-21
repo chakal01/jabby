@@ -70,8 +70,8 @@ class PostsController < ApplicationController
   end
 
   def save_images(params)
+    return if params[:post][:images].nil?
     FileUtils.mkpath(@post.path) unless File.directory?(@post.path)
-
     params[:post][:images].each do |file|
       File.open("./app/assets/images/posts/#{@post.id}/#{file.original_filename}", "wb") do |f|
         f.write(file.tempfile.read)
@@ -102,7 +102,7 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id]).includes(:images)
+      @post = Post.find(params[:id])
     end
 
     def set_blog

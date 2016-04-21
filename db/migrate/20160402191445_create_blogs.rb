@@ -2,7 +2,7 @@ class CreateBlogs < ActiveRecord::Migration
   def change
     create_table :blogs do |t|
       t.string :url
-      t.string :content
+      t.text :content
       t.string :name
       t.belongs_to :camp, index: true, foreign_key: true
 

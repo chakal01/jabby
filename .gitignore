@@ -17,3 +17,9 @@
 /tmp
 /config/database.yml
 /app/assets/images/posts
+
+config/deploy.rb
+config/deploy/staging.rb
+config/deploy/production.rb
+lib/capistrano/tasks
+Capfile
