@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  devise_for :users
+
   resources :users
   get "/users/:id/toggle_role/:role", to: "users#toggle_role"
   resources :blogs do
@@ -12,7 +14,7 @@ Rails.application.routes.draw do
   end
   resources :camps
 
-  devise_for :users
+  
 
   get 'accueil/index'
 
