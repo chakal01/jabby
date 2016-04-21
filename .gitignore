@@ -16,6 +16,7 @@
 !/log/.keep
 /tmp
 /config/database.yml
+/config/database_prod.yml
 /app/assets/images/posts
 
 config/deploy.rb
