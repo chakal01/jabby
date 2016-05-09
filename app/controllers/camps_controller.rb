@@ -1,5 +1,15 @@
 class CampsController < ApplicationController
   before_action :set_camp, only: [:show, :edit, :update, :destroy]
+  before_action :need_admin, except: [:show, :update]
+  before_action :need_moderator, only: [:show, :update, :edit]
+
+  def need_admin
+    redirect_to '/' unless current_user.is_admin?
+  end
+
+  def need_moderator
+    redirect_to '/' unless current_user.has_role? :moderator, @camp
+  end
 
   # GET /camps
   # GET /camps.json

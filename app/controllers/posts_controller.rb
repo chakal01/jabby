@@ -2,6 +2,12 @@ require 'fileutils'
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy, :toggle_active, :delete_img]
   before_action :set_blog
+  before_action :need_moderator
+
+  def need_moderator
+    redirect_to '/' unless current_user.has_role? :moderator, @blog.camp
+  end
+
 
   # GET /blogs/:blog_id//posts
   # GET /blogs/:blog_id//posts.json

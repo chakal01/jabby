@@ -82,10 +82,9 @@
         <th>Online</th>
         <th>Date</th>
         <th>Titre</th>
-        <th>Texte</th>
         <th>Images</th>
         <th>Vues</th>
-        <th>Actions</th>
+        <th>Edition</th>
       </tr>
     </thead>
 
@@ -97,19 +96,15 @@
           </td>
           <td><%= post.date %></td>
           <td><%= post.title %></td>
-          <td><%= truncate(post.content, length: 30, separator: ' ', omission: ' ...') %></td>
           <td><%= post.images.length %></td>
           <td><%= post.views %></td>
           <td>
-            <%= link_to blog_post_path(@blog, post), class: "btn btn-default", title: "Voir" do %>
-              <span class="glyphicon glyphicon-eye-open" ></span>
-            <% end %>
             <%= link_to edit_blog_post_path(@blog, post), class: "btn btn-default", title: "Editer" do %>
               <span class="glyphicon glyphicon-pencil"></span>
             <% end %>
-            <%= link_to blog_post_path(@blog, post), method: :delete, data: { confirm: 'Etes-vous sûr ?' }, class: "btn btn-default", title: "Supprimer" do %>
-              <span class="glyphicon glyphicon-trash"></span>          
-            <% end %>
+            <% #= link_to blog_post_path(@blog, post), method: :delete, data: { confirm: 'Etes-vous sûr ?' }, class: "btn btn-default", title: "Supprimer" do %>
+            <% #  <span class="glyphicon glyphicon-trash"></span> %>
+            <% #end %>
           </td>
         </tr>
       <% end %>

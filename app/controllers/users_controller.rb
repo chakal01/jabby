@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :toggle_role]
+  before_action :need_admin
+
+  def need_admin
+    redirect_to '/' unless current_user.is_admin?
+  end
 
   # GET /users
   # GET /users.json
@@ -10,7 +15,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @roles = [:admin, :directeur, :secretaire]
+    @roles = [:admin, :directeur, :secretaire, :moderator]
   end
 
   # GET /users/new

@@ -1,5 +1,15 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
+  before_action :need_admin, except: [:show, :update]
+  before_action :need_moderator, only: [:show, :update, :edit]
+
+  def need_admin
+    redirect_to '/' unless current_user.is_admin?
+  end
+
+  def need_moderator
+    redirect_to '/' unless current_user.has_role? :moderator, @blog.camp
+  end
 
   # GET /blogs
   # GET /blogs.json
@@ -10,7 +20,7 @@ class BlogsController < ApplicationController
   # GET /blogs/1
   # GET /blogs/1.json
   def show
-    @blogs_url = "http://blog.campsjab.fr/"
+    @blogs_url = "http://blog.jabby.fr/"
     @posts = @blog.posts
   end
 

@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   def load_camps 
     @camps_navbar = Camp.all
+    @blogs_navbar = Blog.all
   end
 
 end

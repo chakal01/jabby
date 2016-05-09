@@ -16,6 +16,7 @@
 
 body{
   background-color: #F6F6F6;
+  font-family: 'Raleway', sans-serif;
 }
 
 .navbar-default{
@@ -73,3 +74,13 @@ body{
   font-weight: bold;
   cursor: pointer;
 }
+.loginBox{
+  width: 400px;
+  border: 1px solid #a9e847;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 20px;
+  margin: auto;
+  margin-top: 10%;
+}
+.margin-bottom-30{margin-bottom: 30px;}
